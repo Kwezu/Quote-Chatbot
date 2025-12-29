@@ -3,7 +3,7 @@ def get_user_info():
     name = input("Enter your first name: ")
     surname = input("Enter your surname: ")
     phone_number = input("Enter your phone number: ")
-    email = input("Entwe your email address: ")
+    email = input("Enter your email address: ")
     return name, surname, phone_number, email #Returns the collected information as tuple.
 
 user_info = get_user_info()
@@ -29,27 +29,46 @@ def select_macbook_model():
             #if valid return the choice and exit the funtion 
         #If the input is not valid, tell the user and repeat the loop
           else:
-            print("Invalid choice. Please enter 1 or 2.")
+            print("\nInvalid choice. Please enter 1 or 2.")
 # this function generates a quotaion based on the selected Macbook model and service chosen by the user.
 
 selected_choice = select_macbook_model()
 print("\nuser name",user_info)
-print("selected MacBook:",selected_choice)
+print("\nselected MacBook:",selected_choice)
 
-def generate_quotaion(choice):
-    #simple pricing for demonstarion 
-    prices ={
-        "1": {"screen_repair":300},
-        "2": {"battery_change":400}
+def select_service():
+    # 1. Our "Menu" dictionary
+    services = {
+        "Screen Repair": 200,
+        "Battery Replacement": 500,
+        "Water Damage": 800
     }
-    print("\n-- Available Services---")
-    print("1. Screen Repair")
-    print("2.Battery Change")
 
-service_choice = input("select a service (1.Screen_repair or 2.Battery Change):" )
+    print("--- Available Services ---")
+    # Displaying the options to the user
+    for item, price in services.items():
+        print(f"- {item}: ${price}")
 
-service_map = {
-        "1": "screen_repair",
-        "2": "battery_change"
-}
+    # 2. Capture the user's choice
+    choice = input("\nWhich service do you need? ")
 
+    # 3. Logic to "fetch" the price from our dictionary
+    if choice in services:
+        selected_price = services[choice]
+        
+        # 4. Pack the information to "Return" it
+        return {
+            "service_name": choice,
+            "price": selected_price
+        }
+    else:
+        print("Invalid service selected.")
+        return None
+
+# --- Using the Function ---
+order_info = select_service()
+
+if order_info:
+    print("\n--- Final Receipt ---")
+    print("Service: " + order_info["service_name"])
+    print("Total Cost: R" + str(order_info["price"]))
