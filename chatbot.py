@@ -1,3 +1,8 @@
+MODELS ={
+    "1": "MacBook Air 2019",
+    "2": "MacBook Pro 2020",
+    "3": "MacBook Pro 2021"
+}
 #this function collects user information 
 def get_user_info():  # a function: a named block of code you can run whenever you call it
     name = input("Enter your first name: ")  # variables: each holds one answer
@@ -11,24 +16,18 @@ print("\nuser information:",user_info)
 
 # This funtion prompts the user to choose between two Macbooks.
 def select_macbook_model():
-    models = {
-        "1": "MacBook Air 2019",
-        "2": "MacBook Pro 2020"
-    }  
-    # Start an infinite loop so the user MUST  choose a valid option
-    while True: # A while loop is used when you want an action to keep repeating as long as a condition is true.
-          print("\nSelect your MacBook: ")
-          for number,model in models.items():
+    # Start an infinite loop so the user MUST choose a valid option
+    while True:
+        print("\nSelect your MacBook: ")
+        for number, model in MODELS.items():
             print(f"{number}. {model}")
-          choice = input ("Enter 1 or 2: ")
+        choice = input("Enter 1,2 or 3: ")
 
-        #Check if the user enter theier choice 
-          if choice in models:
-            
-            return models[choice]
-            #if valid return the choice and exit the funtion 
-        #If the input is not valid, tell the user and repeat the loop
-          else:
+        # If valid, return the choice and exit the function
+        if choice in MODELS:
+            return MODELS[choice]
+        # If the input is not valid, tell the user and repeat the loop
+        else:
             print("\nInvalid choice. Please enter 1 or 2.")
 # this function generates a quotaion based on the selected Macbook model and service chosen by the user.
 
