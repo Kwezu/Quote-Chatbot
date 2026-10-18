@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mac repair booking chatbot</title>
+<style>
+:root{
+  --text:#1a1a1a; --text-2:#555; --text-3:#999;
+  --surface:#fff; --muted:#f2f2f2; --strong:#e2e2e2; --border:#dcdcdc;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --text:#f2f2f2; --text-2:#b5b5b5; --text-3:#7a7a7a;
+    --surface:#1c1c1e; --muted:#2c2c2e; --strong:#3a3a3c; --border:#3a3a3c;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--muted);font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;padding:16px}
+.cb-root{width:100%;max-width:440px;height:min(560px,90vh);display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.cb-head{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text)}
+.cb-dot{width:8px;height:8px;border-radius:50%;background:#2fbf71;flex:none}
+.cb-title{font-size:15px;font-weight:500}
+.cb-sub{margin-left:auto;font-size:12px;color:var(--text-3)}
+.cb-log{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+.cb-row{display:flex;gap:8px;max-width:88%}
+.cb-row.user{align-self:flex-end;flex-direction:row-reverse}
+.cb-avatar{width:22px;height:22px;flex:none;border-radius:50%;background:var(--strong);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text-2)}
+.cb-bubble{padding:8px 12px;border-radius:10px;font-size:14px;line-height:1.55;white-space:pre-wrap;word-break:break-word;color:var(--text)}
+.cb-bot .cb-bubble{background:var(--muted);border-top-left-radius:4px}
+.cb-user .cb-bubble{background:var(--text);color:var(--surface);border-top-right-radius:4px}
+.cb-item{display:flex;justify-content:space-between;gap:12px}
+.cb-item em{font-style:normal;color:var(--text-2)}
+.cb-price{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+.cb-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.cb-chip{border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);padding:4px 10px;font-size:13px;cursor:pointer}
+.cb-chip:hover{border-color:var(--text)}
+.cb-rec{display:flex;flex-direction:column;gap:6px;min-width:230px}
+.cb-rec-row{display:flex;justify-content:space-between;gap:16px;font-size:14px}
+.cb-rec-row span:first-child{color:var(--text-3)}
+.cb-rec-total{border-top:1px solid var(--border);padding-top:6px;margin-top:2px}
+.cb-rec-total b{font-weight:600;font-size:17px;font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+.cb-actions{display:flex;gap:8px;margin-top:10px}
+.cb-btn{border:1px solid var(--text);background:var(--text);color:var(--surface);border-radius:8px;padding:6px 14px;font-size:14px;cursor:pointer}
+.cb-btn.sec{background:var(--surface);color:var(--text)}
+.cb-input{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--border)}
+.cb-input input{flex:1;border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:14px;background:var(--surface);color:var(--text);outline:none;font-family:inherit}
+.cb-input input:focus{border-color:var(--text)}
+.cb-send{width:36px;height:36px;flex:none;border:none;border-radius:8px;background:var(--text);color:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer}
+</style>
+<base target="_blank">
+</head>
+<body>
+<div class="cb-root">
+<div class="cb-head"><div class="cb-dot"></div><div class="cb-title">Mac repair booking</div><div class="cb-sub" id="cbstep">step 1 of 4 · your details</div></div>
+<div class="cb-log" id="cblog"></div>
+<div class="cb-input">
+  <input id="cbinp" type="text" placeholder="Type your first name…" autocomplete="off">
+  <button class="cb-send" id="cbsend" aria-label="send"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16.5364 10.1636C16.8879 10.5151 16.8879 11.0849 16.5364 11.4364C16.1849 11.7879 15.6151 11.7879 15.2636 11.4364L12.9 9.07281V17.1C12.9 17.597 12.4971 18 12 18C11.503 18 11.1 17.597 11.1 17.1V9.07281L8.73641 11.4364C8.38494 11.7879 7.81509 11.7879 7.46362 11.4364C7.11214 11.0849 7.11214 10.5151 7.46362 10.1636L11.3636 6.2636C11.7151 5.91211 12.2849 5.91211 12.6364 6.2636L16.5364 10.1636Z" fill="currentColor"/></svg></button>
+</div>
+</div>
+<script>
+var MODELS={"1":"MacBook Air 2019","2":"MacBook Pro 2020","3":"MacBook Pro 2021"};
+var SERVICES={"1":["Screen Repair",200],"2":["Battery Replacement",500],"3":["Water Damage",800],"4":["Keyboard Replacement",300]};
+var log=document.getElementById('cblog'),inp=document.getElementById('cbinp'),snd=document.getElementById('cbsend'),stepEl=document.getElementById('cbstep');
+var order=['name','surname','phone','email','model','service'];
+var labels={name:"Type your first name…",surname:"Type your surname…",phone:"Type your phone number…",email:"Type your email address…",model:"Enter 1, 2 or 3…",service:"Enter 1, 2, 3 or 4…"};
+var steps={name:"step 1 of 4 · your details",surname:"step 1 of 4 · your details",phone:"step 1 of 4 · your details",email:"step 1 of 4 · your details",model:"step 2 of 4 · macbook model",service:"step 3 of 4 · service",done:"step 4 of 4 · receipt"};
+var state='name',d={};
+function scroll(){log.scrollTop=log.scrollHeight}
+function el(html){var w=document.createElement('div');w.innerHTML=html;return w.firstElementChild}
+function add(role,text,html){
+  var row=el('<div class="cb-row '+(role==='user'?'user':'bot')+'"><div class="cb-avatar">'+(role==='user'?'You':'M')+'</div><div class="cb-bubble">'+(html||escapeHtml(text))+'</div></div>');
+  log.appendChild(row);scroll();return row.querySelector('.cb-bubble');
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function bot(text,delay,html){setTimeout(function(){add('bot',text,html)},delay||350)}
+function menuList(obj,withPrice){
+  var h='<div>';for(var k in obj){var v=obj[k];
+    if(withPrice){h+='<div class="cb-item"><span>'+k+'. '+escapeHtml(v[0])+'</span><span class="cb-price">R'+v[1]+'</span></div>'}
+    else{h+='<div>'+k+'. '+escapeHtml(v)+'</div>'}
+  }return h+'</div>';
+}
+function chips(obj,withPrice){
+  var c='<div class="cb-chips">';for(var k in obj){var v=obj[k];
+    c+='<button class="cb-chip" data-v="'+k+'">'+(withPrice?escapeHtml(v[0])+' · R'+v[1]:escapeHtml(v))+'</button>';
+  }return c+'</div>';
+}
+function ask(){
+  stepEl.textContent=steps[state];inp.placeholder=labels[state];inp.value='';inp.focus();
+  if(state==='name')bot("Hi! Welcome to the Mac repair shop. Let's get your booking started.\n\nWhat's your first name?");
+  else if(state==='surname')bot("Nice to meet you, "+d.name+". What's your surname?");
+  else if(state==='phone')bot("Thanks, "+d.name+" "+d.surname+". What's your phone number?");
+  else if(state==='email')bot("Got it. And your email address?");
+  else if(state==='model'){var b=add('bot','');setTimeout(function(){b.innerHTML='Select your MacBook:\n'+menuList(MODELS,false)+chips(MODELS,false)},350)}
+  else if(state==='service'){var b2=add('bot','');setTimeout(function(){b2.innerHTML='Available services:\n'+menuList(SERVICES,true)+chips(SERVICES,true)},350)}
+}
+function validate(v){
+  if(state==='name'||state==='surname')return v.length>=1?null:"Please enter your "+state+".";
+  if(state==='phone')return /^[0-9+\-\s]{7,}$/.test(v)?null:"That doesn't look like a phone number. Try again.";
+  if(state==='email')return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)?null:"That email looks off — it needs an @ and a domain. Try again.";
+  if(state==='model')return MODELS[v]?null:"Invalid choice. Please enter from 1, 2, 3.";
+  if(state==='service')return SERVICES[v]?null:"Invalid choice. Please enter from 1, 2, 3, 4.";
+  return null;
+}
+function advance(){
+  state=order[order.indexOf(state)+1];
+  if(state==='done')receipt();else ask();
+}
+function receipt(){
+  state='done';stepEl.textContent=steps.done;inp.placeholder="Type anything to start over…";
+  var s=SERVICES[d.service];
+  var h='<div class="cb-rec">'
+    +'<div style="font-size:15px;font-weight:600">Final receipt</div>'
+    +'<div class="cb-rec-row"><span>Customer</span><span>'+escapeHtml(d.name+' '+d.surname)+'</span></div>'
+    +'<div class="cb-rec-row"><span>Phone</span><span>'+escapeHtml(d.phone)+'</span></div>'
+    +'<div class="cb-rec-row"><span>Email</span><span>'+escapeHtml(d.email)+'</span></div>'
+    +'<div class="cb-rec-row"><span>MacBook</span><span>'+escapeHtml(MODELS[d.model])+'</span></div>'
+    +'<div class="cb-rec-row"><span>Service</span><span>'+escapeHtml(s[0])+'</span></div>'
+    +'<div class="cb-rec-row cb-rec-total"><span>Total cost</span><b>R'+s[1]+'</b></div>'
+    +'<div class="cb-actions"><button class="cb-btn" id="cbrestart">Start over</button></div></div>';
+  var b=add('bot','',h);
+  var rs=b.querySelector('#cbrestart');if(rs)rs.onclick=function(){restart()};
+}
+function restart(){d={};while(log.firstChild)log.removeChild(log.firstChild);state='name';ask()}
+function submit(v){
+  v=v.trim();if(!v)return;
+  add('user',v);
+  if(state==='done'){bot("Booking complete! Click \"Start over\" to make another one.");return}
+  var err=validate(v);
+  if(err){bot(err);return}
+  d[state]=v;advance();
+}
+snd.onclick=function(){submit(inp.value)};
+inp.addEventListener('keydown',function(e){if(e.key==='Enter')submit(inp.value)});
+log.addEventListener('click',function(e){
+  var c=e.target.closest('.cb-chip');if(c)submit(c.getAttribute('data-v'));
+});
+bot("Hi! Welcome to the Mac repair shop. Let's get your booking started.\n\nWhat's your first name?",300);
+inp.focus();
+</script>
+</body>
+</html>
