@@ -45,3 +45,14 @@
   python3 try_it.py prints nothing.
 - Learned: __name__ is "__main__" when a file is run directly and the
   file's name when it is imported.
+  ## Greeting
+- Added greet() and called it first in main().
+- Learned: new behaviour goes inside functions, not loose at the left
+  margin, or it would run on import again.
+  ## Several services per quote
+- Added ask_add_another() (y/n, loops until valid).
+- main() keeps the chosen services in a list (order_items) and loops until
+  the customer says no; the same service can't be added twice.
+- The receipt loops over the list and adds up the total.
+- Learned: lists, append(), looping over a list, a running total, and that
+  a function only runs when something calls it.
