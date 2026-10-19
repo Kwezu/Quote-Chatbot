@@ -74,6 +74,16 @@ def select_service():
         else:
             print(f"\nInvalid choice. Please enter from {options}.")
 
+# Asks whether the customer wants another service. Returns True or False.
+def ask_add_another():
+    while True:
+        answer = input("\nAdd another service? (y/n): ").strip().lower()
+        if answer == "y":
+            return True
+        if answer == "n":
+            return False
+        print("Please enter y or n.")
+
 # ===== THE MAIN PROGRAM SECTION =====
 
 # main() holds the order of events: collect details, choose a MacBook,
@@ -86,14 +96,42 @@ def main():
 
     selected_choice = select_macbook_model()
     print("\nselected MacBook:", selected_choice)
+    # Create an empty list. This is the "cart" that will hold the chosen services.
+    order_items = []   # the "cart": starts empty
+    while True:
+        # Ask the customer to pick a service. This returns a dictionary
+        # such as {"service_name": "Screen Repair", "price": 200}.
+        item = select_service()
+        # Is this exact service already in the cart?
+        if item in order_items:
+            # Yes, so tell the customer and don't add it a second time.
+            print(f"\n{item['service_name']} is already in your quote.")
+        else:
+            # No, so put it in the cart.
+            order_items.append(item)
+            # Confirm what was added
+            print(f"\nAdded: {item['service_name']}")
+        # Ask "Add another service? (y/n)". It returns True for y and False for n.
+        # "not" flips that, so this reads: if the answer is NOT yes...
+        if not ask_add_another():
+              # ...stop the loop and move on to the receipt.
+            break
+    # Start the running total at zero.
+    total = 0
+    # Go through the cart one service at a time.
+    for item in order_items:
+        # Add this service's price to the total (200, then 200 + 500, and so on).
 
-    order_info = select_service()
+        total = total + item["price"]
 
-    print("\n==== Final Receipt ====")
-    print("\nuser information:", user_info[0], user_info[1])
-    print("select_service: " + order_info["service_name"])
-    print("Total Cost: R" + str(order_info["price"]))
-
+    print("\n--- Final Receipt ---")
+    print(f"Customer: {user_info[0]} {user_info[1]}")
+    print(f"MacBook:  {selected_choice}")
+    print("Services:")
+    for item in order_items:
+        print(f"  - {item['service_name']}: R{item['price']}")
+    print(f"Total Cost: R{total}")
+    
 # Guard: Python labels this file "__main__" when it is run directly
 # (python3 chatbot.py) and "chatbot" when another file imports it.
 # main() only starts the chatbot in the first case, so other code
