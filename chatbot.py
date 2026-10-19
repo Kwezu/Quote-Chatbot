@@ -5,13 +5,23 @@ MODELS ={
     "2": "MacBook Pro 2020",
     "3": "MacBook Pro 2021"
 }
-
 SERVICES = {
     "1": ("Screen Repair", 200),
     "2": ("Battery Replacement", 500),
     "3": ("Water Damage", 800),
     "4": ("Keyboard Replacement", 300)
 }
+
+# ===== THE GREETING SECTION =====
+
+# Shows a welcome message when the chatbot starts.
+def greet():
+    print("=" * 45)
+    print("Welcome to the MacBook Repair Quote Chatbot!")
+    print("I'll collect your details, then help you build a quote.")
+    print("=" * 45)
+    print()
+
 #==========THE USER INFORMATION SECTION==============
 
 #this function collects user information 
@@ -21,8 +31,6 @@ def get_user_info():  # a function: a named block of code you can run whenever y
     phone_number = input("Enter your phone number: ")
     email = input("Enter your email address: ")
     return name, surname, phone_number, email #Returns the collected information as tuple.
-
-
 
 #=======THE MACBOOK SELECTION SECTION==========
 
@@ -44,8 +52,6 @@ def select_macbook_model():
         # If the input is not valid, tell the user and repeat the loop
         else:
             print(f"\nInvalid choice. Please enter from {options}.")
-
-
 
 # ===== THE SERVICES SECTION ================
 # This function asks the user to choose a service and returns its name and price.
@@ -72,13 +78,11 @@ def select_service():
 
 # main() holds the order of events: collect details, choose a MacBook,
 # choose a service, then print the receipt.
-# The variables created inside it only exist while main() is running.
-          
+# The variables created inside it only exist while main() is running.      
 def main():
+    greet()
     user_info = get_user_info()
-    print("\nuser information:", user_info)
-
-   
+    print(f"\nThanks, {user_info[0]}! Let's find your MacBook.")
 
     selected_choice = select_macbook_model()
     print("\nselected MacBook:", selected_choice)
