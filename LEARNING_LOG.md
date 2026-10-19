@@ -45,3 +45,7 @@
   python3 try_it.py prints nothing.
 - Learned: __name__ is "__main__" when a file is run directly and the
   file's name when it is imported.
+  ## Greeting
+- Added greet() and called it first in main().
+- Learned: new behaviour goes inside functions, not loose at the left
+  margin, or it would run on import again.
