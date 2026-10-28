@@ -30,8 +30,13 @@ def get_user_info():  # a function: a named block of code you can run whenever y
     surname = input("Enter your surname: ")
     phone_number = input("Enter your phone number: ")
     email = input("Enter your email address: ")
-    return name, surname, phone_number, email #Returns the collected information as tuple.
-
+       # Returns the details as a dictionary: each answer is stored under a label.
+    return {
+        "name": name,
+        "surname": surname,
+        "phone": phone_number,
+        "email": email
+    }
 #=======THE MACBOOK SELECTION SECTION==========
 
 # This funtion prompts the user to choose between  Macbooks.
@@ -92,7 +97,7 @@ def ask_add_another():
 def main():
     greet()
     user_info = get_user_info()
-    print(f"\nThanks, {user_info[0]}! Let's find your MacBook.")
+    print(f"\nThanks, {user_info['name']}! Let's find your MacBook.")
 
     selected_choice = select_macbook_model()
     print("\nselected MacBook:", selected_choice)
@@ -125,7 +130,7 @@ def main():
         total = total + item["price"]
 
     print("\n--- Final Receipt ---")
-    print(f"Customer: {user_info[0]} {user_info[1]}")
+    print(f"Customer: {user_info['name']} {user_info['surname']}")
     print(f"MacBook:  {selected_choice}")
     print("Services:")
     for item in order_items:

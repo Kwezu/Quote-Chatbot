@@ -56,3 +56,11 @@
 - The receipt loops over the list and adds up the total.
 - Learned: lists, append(), looping over a list, a running total, and that
   a function only runs when something calls it.
+  ## Customer details as a dictionary
+- Before: get_user_info() returned a tuple and main() used positions
+  like user_info[0], which breaks silently if the order changes.
+- Change: it now returns a dictionary with labels (name, surname, phone,
+  email), and main() reads user_info["name"] and so on.
+- Tested: swapped the order inside the dictionary and the receipt stayed
+  correct.
+- Learned: labelled data is safer than positional data.
