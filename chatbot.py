@@ -88,6 +88,26 @@ def ask_add_another():
             return False
         print("Please enter y or n.")
 
+# ===== THE REUSABLE MENU SECTION =====
+
+# Shows a numbered menu, keeps asking until the user picks a valid number,
+# then returns the chosen option.
+#   title    - the heading to print above the menu
+#   options  - a dictionary like MODELS or SERVICES
+#   describe - a small function that turns ONE option into the text to display
+def choose_from_menu(title, options, describe):
+    keys = ", ".join(options)
+    while True:
+        print(f"\n--- {title} ---")
+        for number, value in options.items():
+            print(f"{number}. {describe(value)}")
+
+        choice = input(f"\nEnter your choice from {keys}: ")
+
+        if choice in options:
+            return options[choice]
+        print(f"\nInvalid choice. Please enter from {keys}.")
+
 # ===== THE MAIN PROGRAM SECTION =====
 
 # main() holds the order of events: collect details, choose a MacBook,
