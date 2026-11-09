@@ -84,7 +84,7 @@ and prompts update automatically.
 - [x] Program flow wrapped in `main()` with a `__name__` guard
 - [x] Greeting at startup
 - [x] Several services per quote
-- [ ] Customer details as a dictionary instead of a tuple
+- [x] Customer details as a dictionary instead of a tuple
 - [ ] One reusable menu function
 - [ ] Separate quote logic from `input()` and `print()`
 - [ ] Web interface

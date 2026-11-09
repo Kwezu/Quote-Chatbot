@@ -56,3 +56,20 @@
 - The receipt loops over the list and adds up the total.
 - Learned: lists, append(), looping over a list, a running total, and that
   a function only runs when something calls it.
+  ## Step 3: Customer details as a dictionary
+- A tuple stores values by position (user_info[0]); a dictionary stores them by
+  label (user_info["name"]). Labels make code readable and harder to break
+  when the order changes.
+- Changing what a function returns means updating every place that uses it
+  (here, main() in two spots).
+- Git has two stages: `git add` picks what goes in, `git commit` saves it.
+  Committing without adding does nothing.
+- ^C / KeyboardInterrupt is me stopping the program with Ctrl+C, not a bug.
+
+## Step 4a: Reusable menu function (in progress)
+- Two near-identical functions can become one by turning the parts that
+  differ into inputs (title, options, a "describe" function).
+- Add the new code first, test it on its own via try_it.py, and only delete
+  the old code once nothing depends on it.
+- The menu function handles one pick; the "add another?" loop in main()
+  is what allows several services.
