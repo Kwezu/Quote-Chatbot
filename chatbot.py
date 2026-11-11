@@ -36,9 +36,10 @@ def get_user_info():
         "phone_number": phone_number,
         "email": email
     }
-#=======THE MACBOOK SELECTION SECTION==========
 
-# This function prompts the user to choose between  Macbooks.
+ #=======THE MACBOOK SELECTION SECTION==========
+
+# This function prompts the user to choose between MacBooks.
 def select_macbook_model():
     # Joins the dictionary keys into text like "1, 2, 3", so the prompts
     # update automatically when an item is added to the menu.
@@ -57,7 +58,10 @@ def select_macbook_model():
         else:
             print(f"\nInvalid choice. Please enter from {options}.")
 
-# ===== THE SERVICES SECTION ================
+
+ #===== THE SERVICES SECTION ================
+
+ 
 # This function asks the user to choose a service and returns its name and price.
 def select_service():
     options = ", ".join(SERVICES)
@@ -108,6 +112,10 @@ def choose_from_menu(title, options, describe):
             return options[choice]
         print(f"\nInvalid choice. Please enter from {keys}.")
 
+# Turns one SERVICES entry, like ("Screen Repair", 200), into display text.
+def describe_service(service):
+    name, price = service
+    return f"{name}: R{price}"
 # ===== THE MAIN PROGRAM SECTION =====
 
 # main() holds the order of events: collect details, choose a MacBook,
@@ -125,7 +133,8 @@ def main():
     while True:
         # Ask the customer to pick a service. This returns a dictionary
         # such as {"service_name": "Screen Repair", "price": 200}.
-        item = select_service()
+        service_name, price = choose_from_menu("Available Services", SERVICES, describe_service)
+        item = {"service_name": service_name, "price": price}
         # Is this exact service already in the cart?
         if item in order_items:
             # Yes, so tell the customer and don't add it a second time.
