@@ -73,3 +73,23 @@
   the old code once nothing depends on it.
 - The menu function handles one pick; the "add another?" loop in main()
   is what allows several services.
+  ## Step 4: One reusable menu function
+- Two near-identical functions (select_macbook_model, select_service) became
+  one: choose_from_menu(title, options, describe).
+- The parts that differed became inputs: a title, the options dictionary, and
+  a small "describe" function that says how to display one option.
+- A lambda (lambda model: model) is a tiny unnamed function, handy for
+  one-line jobs like "show this exactly as it is".
+- I added the new function first, tested it alone in try_it.py, swapped one
+  menu at a time in main(), and deleted the old code only after each swap
+  worked.
+- When deleting a function, remove the whole thing: the def line plus
+  everything indented under it. A leftover body causes an IndentationError,
+  and deleting a function that is still called causes a NameError.
+- A function call stored in a variable (user_info = get_user_info()) catches
+  the function's return value.
+  ## Step 5: Separate quote logic from input()/print() (in progress)
+- Idea: the code that does the maths should not also talk to the customer,
+  so it can be tested alone.
+- Started with calculate_total(order_items), which returns a number and
+  prints nothing.

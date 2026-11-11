@@ -85,7 +85,7 @@ and prompts update automatically.
 - [x] Greeting at startup
 - [x] Several services per quote
 - [x] Customer details as a dictionary instead of a tuple
-- [ ] One reusable menu function
+- [x] One reusable menu function
 - [ ] Separate quote logic from `input()` and `print()`
 - [ ] Web interface
 - [ ] Automated tests (`pytest`)
