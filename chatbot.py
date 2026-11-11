@@ -1,17 +1,29 @@
 # ===== DATA: menus and prices live here, in one place =====
 # Each key is the number the user types; each value is what they are choosing.
-MODELS ={
-    "1": "MacBook Air 2019",
-    "2": "MacBook Pro 2020",
-    "3": "MacBook Pro 2021"
+MODELS = {
+    "1": "MacBook Air 13-inch (2018-2019, Intel)",
+    "2": "MacBook Air 13-inch (2020, Intel)",
+    "3": "MacBook Air 13-inch (2020, M1)",
+    "4": "MacBook Air 13-inch (2022, M2)",
+    "5": "MacBook Pro 13-inch (2019-2020, Intel)",
+    "6": "MacBook Pro 13-inch (2020, M1)",
+    "7": "MacBook Pro 14-inch (2021, M1 Pro/Max)",
+    "8": "MacBook Pro 16-inch (2019, Intel)",
+    "9": "MacBook Pro 16-inch (2021, M1 Pro/Max)",
+    "10": "MacBook Pro 14-inch (2023, M2 Pro/Max)",
+    "11": "MacBook Air 15-inch (2023, M2)"
 }
 SERVICES = {
-    "1": ("Screen Repair", 200),
-    "2": ("Battery Replacement", 500),
-    "3": ("Water Damage", 800),
-    "4": ("Keyboard Replacement", 300)
+    "1": ("Diagnostic Check", 350),
+    "2": ("Screen Replacement", 4500),
+    "3": ("Battery Replacement", 1800),
+    "4": ("Keyboard Replacement", 3200),
+    "5": ("Trackpad Replacement", 1900),
+    "6": ("Charging Port Repair", 1200),
+    "7": ("Fan Replacement / Cleaning", 950),
+    "8": ("Liquid Damage Cleaning", 1500),
+    "9": ("Logic Board Repair", 5500)
 }
-
 # ===== THE GREETING SECTION =====
 
 # Shows a welcome message when the chatbot starts.
