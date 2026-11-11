@@ -62,25 +62,6 @@ def select_macbook_model():
  #===== THE SERVICES SECTION ================
 
  
-# This function asks the user to choose a service and returns its name and price.
-def select_service():
-    options = ", ".join(SERVICES)
-    # Loop until the user picks a valid number
-    while True:
-        print("\n--- Available Services ---")
-        for number, (name, price) in SERVICES.items():
-            print(f"{number}. {name}: R{price}")
-
-        choice = input(f"\nEnter from {options}: ")
-
-        if choice in SERVICES:
-            service_name, selected_price = SERVICES[choice]
-            return {
-                "service_name": service_name,
-                "price": selected_price
-            }
-        else:
-            print(f"\nInvalid choice. Please enter from {options}.")
 
 # Asks whether the customer wants another service. Returns True or False.
 def ask_add_another():
