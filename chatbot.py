@@ -107,7 +107,7 @@ def main():
     user_info = get_user_info()
     print(f"\nThanks, {user_info['name']}! Let's find your MacBook.")
 
-    selected_choice = select_macbook_model()
+    selected_choice = choose_from_menu("Select your MacBook", MODELS, lambda model: model)
     print("\nselected MacBook:", selected_choice)
     # Create an empty list. This is the "cart" that will hold the chosen services.
     order_items = []   # the "cart": starts empty
