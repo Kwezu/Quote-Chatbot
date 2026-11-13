@@ -93,3 +93,33 @@
   so it can be tested alone.
 - Started with calculate_total(order_items), which returns a number and
   prints nothing.
+  ## To revisit: the running-total loop (accumulator pattern)
+Where it lives: calculate_total() in chatbot.py
+
+```python
+total = 0
+for item in order_items:
+    total = total + item["price"]
+```
+or
+
+```python
+cart = [{"price": 200}, {"price": 500}, {"price": 300}]
+
+total = 0
+for item in cart:
+    total = total + item["price"]
+    print("added", item["price"], "-> total is now", total)
+```
+
+
+
+What I want to understand properly:
+- Why total starts at 0 before the loop
+- How total changes on each pass (0, then 200, then 700, and so on)
+- Why item["price"] works (item is a dictionary, "price" is its label)
+
+A shorter version exists, to learn once I'm comfortable with the loop:
+```python
+total = sum(item["price"] for item in order_items)
+```
