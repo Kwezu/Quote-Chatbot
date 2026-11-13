@@ -99,7 +99,14 @@ def calculate_total(order_items):
     for item in order_items:
         total = total + item["price"]
     return total
-
+# Adds a service to the cart unless it is already there.
+# Returns True if it was added, False if it was a duplicate.
+def add_service(order_items, service_name, price):
+    item = {"service_name": service_name, "price": price}
+    if item in order_items:
+        return False
+    order_items.append(item)
+    return True
 # ===== THE MAIN PROGRAM SECTION =====
 
 # main() holds the order of events: collect details, choose a MacBook,
@@ -118,17 +125,11 @@ def main():
         # Ask the customer to pick a service. This returns a dictionary
         # such as {"service_name": "Screen Repair", "price": 200}.
         service_name, price = choose_from_menu("Available Services", SERVICES, describe_service)
-        item = {"service_name": service_name, "price": price}
-        # Is this exact service already in the cart?
-        if item in order_items:
-            # Yes, so tell the customer and don't add it a second time.
-            print(f"\n{item['service_name']} is already in your quote.")
+                # add_service() returns True if added, False if it was a duplicate.
+        if add_service(order_items, service_name, price):
+            print(f"\nAdded: {service_name}")
         else:
-            # No, so put it in the cart.
-            order_items.append(item)
-            # Confirm what was added
-            print(f"\nAdded: {item['service_name']}")
-        # Ask "Add another service? (y/n)". It returns True for y and False for n.
+            print(f"\n{service_name} is already in your quote.")# Ask "Add another service? (y/n)". It returns True for y and False for n.
         # "not" flips that, so this reads: if the answer is NOT yes...
         if not ask_add_another():
               # ...stop the loop and move on to the receipt.
