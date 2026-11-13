@@ -49,26 +49,6 @@ def get_user_info():
         "email": email
     }
 
- #=======THE MACBOOK SELECTION SECTION==========
-
-# This function prompts the user to choose between MacBooks.
-def select_macbook_model():
-    # Joins the dictionary keys into text like "1, 2, 3", so the prompts
-    # update automatically when an item is added to the menu.
-    options = ", ".join(MODELS)
-    # Start an infinite loop so the user MUST choose a valid option
-    while True:
-        print("\nSelect your MacBook: ")
-        for number, model in MODELS.items():
-            print(f"{number}. {model}")
-        choice = input(f"Enter your choice from {options}: ")
-
-        # If valid, return the choice and exit the function
-        if choice in MODELS:
-            return MODELS[choice]
-        # If the input is not valid, tell the user and repeat the loop
-        else:
-            print(f"\nInvalid choice. Please enter from {options}.")
 
 
  #===== THE SERVICES SECTION ================
@@ -109,6 +89,17 @@ def choose_from_menu(title, options, describe):
 def describe_service(service):
     name, price = service
     return f"{name}: R{price}"
+
+# ===== THE QUOTE LOGIC SECTION =====
+
+# Adds up the price of every service in the cart and returns the total.
+# It does no input() or print(), so it can be tested on its own.
+def calculate_total(order_items):
+    total = 0
+    for item in order_items:
+        total = total + item["price"]
+    return total
+
 # ===== THE MAIN PROGRAM SECTION =====
 
 # main() holds the order of events: collect details, choose a MacBook,
@@ -142,13 +133,10 @@ def main():
         if not ask_add_another():
               # ...stop the loop and move on to the receipt.
             break
-    # Start the running total at zero.
-    total = 0
-    # Go through the cart one service at a time.
-    for item in order_items:
-        # Add this service's price to the total (200, then 200 + 500, and so on).
+        # Ask calculate_total() to add up the prices in the cart.
+    # It returns a number, and we store it in total for the receipt.
+    total = calculate_total(order_items)
 
-        total = total + item["price"]
 
     print("\n--- Final Receipt ---")
     print(f"Customer: {user_info['name']} {user_info['surname']}")
