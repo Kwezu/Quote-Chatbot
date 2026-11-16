@@ -87,7 +87,7 @@ and prompts update automatically.
 - [x] Customer details as a dictionary instead of a tuple
 - [x] One reusable menu function
 - [x] Separate quote logic from input() and print()
-- [ ] Web interface
+- [ ] Web interface (UI prototype from a friend, a static HTML page; not yet connected to the Python logic)
 - [ ] Automated tests (`pytest`)
 - [ ] CI with GitHub Actions
 - [ ] Docker and deployment
