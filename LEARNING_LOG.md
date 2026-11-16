@@ -66,13 +66,6 @@
   Committing without adding does nothing.
 - ^C / KeyboardInterrupt is me stopping the program with Ctrl+C, not a bug.
 
-## Step 4a: Reusable menu function (in progress)
-- Two near-identical functions can become one by turning the parts that
-  differ into inputs (title, options, a "describe" function).
-- Add the new code first, test it on its own via try_it.py, and only delete
-  the old code once nothing depends on it.
-- The menu function handles one pick; the "add another?" loop in main()
-  is what allows several services.
   ## Step 4: One reusable menu function
 - Two near-identical functions (select_macbook_model, select_service) became
   one: choose_from_menu(title, options, describe).
@@ -91,8 +84,9 @@
   ## Step 5: Separate quote logic from input()/print() (in progress)
 - Idea: the code that does the maths should not also talk to the customer,
   so it can be tested alone.
-- Started with calculate_total(order_items), which returns a number and
-  prints nothing.
+- Done so far: calculate_total(order_items) and add_service(order_items,
+  service_name, price). Both return a value and print nothing.
+- Still to do: build_receipt(), so main() only asks, calls and shows.
   ## To revisit: the running-total loop (accumulator pattern)
 Where it lives: calculate_total() in chatbot.py
 
@@ -101,7 +95,27 @@ total = 0
 for item in order_items:
     total = total + item["price"]
 ```
-or
+## To revisit: the running-total loop (accumulator pattern)
+Where it lives now: calculate_total() in chatbot.py
+
+My original version, as it first appeared in main(), with my comments:
+
+```python
+    # Start the running total at zero.
+    total = 0
+    # Go through the cart one service at a time.
+    for item in order_items:
+        # Add this service's price to the total (200, then 200 + 500, and so on).
+        total = total + item["price"]
+
+        or
+
+total = 0
+for item in order_items:
+    total = total + item["price"]
+```
+
+An experiment to watch it work (try_it.py):
 
 ```python
 cart = [{"price": 200}, {"price": 500}, {"price": 300}]
@@ -112,14 +126,13 @@ for item in cart:
     print("added", item["price"], "-> total is now", total)
 ```
 
-
-
 What I want to understand properly:
 - Why total starts at 0 before the loop
 - How total changes on each pass (0, then 200, then 700, and so on)
 - Why item["price"] works (item is a dictionary, "price" is its label)
 
 A shorter version exists, to learn once I'm comfortable with the loop:
+
 ```python
 total = sum(item["price"] for item in order_items)
 ```

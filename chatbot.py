@@ -90,6 +90,32 @@ def describe_service(service):
     name, price = service
     return f"{name}: R{price}"
 
+# Adds a service to the cart unless it is already there.
+# Returns True if it was added, False if it was a duplicate.
+def add_service(order_items, service_name, price):
+    item = {"service_name": service_name, "price": price}
+    if item in order_items:
+        return False
+    order_items.append(item)
+    return True
+
+# Builds the receipt as one block of text and returns it.
+# It does no print(), so it can be tested on its own.
+def build_receipt(user_info, model, order_items, total):
+    lines = [
+        "--- Final Receipt ---",
+        f"Customer: {user_info['name']} {user_info['surname']}",
+        f"MacBook:  {model}",
+        "Services:"
+    ]
+    for item in order_items:
+        lines.append(f"  - {item['service_name']}: R{item['price']}")
+    lines.append(f"Total Cost: R{total}")
+    # Join the lines into one text, with a new line between each.
+    return "\n".join(lines)
+
+
+
 # ===== THE QUOTE LOGIC SECTION =====
 
 # Adds up the price of every service in the cart and returns the total.
@@ -129,7 +155,8 @@ def main():
         if add_service(order_items, service_name, price):
             print(f"\nAdded: {service_name}")
         else:
-            print(f"\n{service_name} is already in your quote.")# Ask "Add another service? (y/n)". It returns True for y and False for n.
+            print(f"\n{service_name} is already in your quote.")
+        # Ask "Add another service? (y/n)". It returns True for y and False for n.
         # "not" flips that, so this reads: if the answer is NOT yes...
         if not ask_add_another():
               # ...stop the loop and move on to the receipt.
@@ -140,13 +167,9 @@ def main():
 
 
     print("\n--- Final Receipt ---")
-    print(f"Customer: {user_info['name']} {user_info['surname']}")
-    print(f"MacBook:  {selected_choice}")
-    print("Services:")
-    for item in order_items:
-        print(f"  - {item['service_name']}: R{item['price']}")
-    print(f"Total Cost: R{total}")
-    
+        # Build the receipt text, then show it.
+    receipt = build_receipt(user_info, selected_choice, order_items, total)
+    print("\n" + receipt)
 # Guard: Python labels this file "__main__" when it is run directly
 # (python3 chatbot.py) and "chatbot" when another file imports it.
 # main() only starts the chatbot in the first case, so other code
