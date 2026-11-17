@@ -136,3 +136,12 @@ A shorter version exists, to learn once I'm comfortable with the loop:
 ```python
 total = sum(item["price"] for item in order_items)
 ```
+## Step 6: Automated tests (pytest)
+Code: test_chatbot.py
+- A test is a function that calls my code and uses `assert` to say what
+  must be true. If it isn't, pytest fails and shows the expected and actual values.
+- These tests work because the logic is separate from input()/print(): no
+  customer has to type anything.
+- Each test checks one behaviour: empty cart, adding up prices, a new
+  service, a duplicate, and what the receipt contains.
+- Test names say what should happen; docstrings say why it matters.

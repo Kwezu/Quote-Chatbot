@@ -88,7 +88,7 @@ and prompts update automatically.
 - [x] One reusable menu function
 - [x] Separate quote logic from input() and print()
 - [ ] Web interface (UI prototype from a friend, a static HTML page; not yet connected to the Python logic)
-- [ ] Automated tests (`pytest`)
+- [x] Automated tests (pytest)
 - [ ] CI with GitHub Actions
 - [ ] Docker and deployment
 
